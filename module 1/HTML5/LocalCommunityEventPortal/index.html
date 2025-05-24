@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .banner {
+            background-color: blue;
+            padding: 20px;
+            text-align: center;
+        }
+        .higlight {
+            background-color: rgb(103, 202, 210);
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="help.html" target="_blank">Help</a></li>
+        </ul>
+    </nav>
+    <div id="welcomebanner" class="banner">
+        <h1>Local Community Event Portal</h1>
+    </div>
+    <main>
+        <h1>Welcome to My Website</h1>
+        <p>This is a simple HTML5 document with a navigation bar and a main content area.</p>
+        <section id="home">
+            <h2>About Us</h2>
+            <p>This is the home section of the website.</p>
+            <p>Here you can find the latest updates and news.</p>
+            <ul>
+                <li>Update 1: New features added</li>
+                <li>Update 2: Maintenance scheduled</li>
+                <li>Update 3: Community feedback session</li>
+            </ul>
+        </section>
+        <section id="events">
+            <h2>Events</h2>
+            <p>Here you can find information about upcoming events.</p>
+            <ul>
+                <li>Event 1: Local Community Gathering</li>
+                <li>Event 2: Charity Fundraiser</li>
+                <li>Event 3: Workshop on Local History</li>
+            </ul>
+            
+    <h1>
+        offers and discounts
+    </h1>
+            <p>Check out our latest offers and discounts!</p>
+            <ul>
+                <li>Discount 1:  <span style="color: red; font-style: bold;">20% off </span>on event tickets</li>
+                <li>Discount 2: Buy one get one free on merchandise</li>
+                <li>Discount 3: Early bird registration discount</li>
+            </ul>
+            </span>
+            <p class="higlight">Don't miss out on these great deals!</p>
+        </section>
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Use the contact form to get in touch with us.</p>
+            <form onsubmit="handleSubmit(event)">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <label type="date" for="date">Date:</label>
+            <input type="date" id="date" name="date" required><br><br>
+            <label type="text" for="event">Event Type:</label>
+            <input type="text" id="event" name="event" required><br><br>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea><br><br>
+            <input type="submit" value="Submit">
+            </form>
+        </section><br></br>
+        <table>
+            <caption>Community Events Schedule</caption>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Caption</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="https://www.rockstaracademy.com/lib/images/news/contemporary-dance-for-beginners.jpeg" alt="Dancing" title="Dancing" style="border:black solid 2px" height="150px" width="150px"  ></td>
+                    <td>Dancing</td>
+                </tr>
+                <tr>
+                    <td><img src="https://cdn.britannica.com/63/211663-050-A674D74C/Jonny-Bairstow-batting-semifinal-match-England-Australia-2019.jpg" alt="Cricket" title="Cricket" style="border:black solid 2px" height="150px" width="150px"></td>
+                    <td>Cricket</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>&copy; 2023 My Website</p>
+    </footer>
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert("Form submitted successfully!");
+        }
+    </script>
+</body>
+</html>
