@@ -4,98 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Community Event Portal</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        nav {
-            background: #333;
-            padding: 10px;
-            margin: -20px -20px 20px -20px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-right: 15px;
-        }
-
-        #welcomeBanner {
-            background: #007bff;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            margin: -20px -20px 20px -20px;
-        }
-
-        .event-gallery {
-            width: 100%;
-            margin: 20px 0;
-        }
-
-        .event-gallery td {
-            padding: 10px;
-            text-align: center;
-        }
-
-        .event-gallery img {
-            max-width: 100%;
-            border: 1px solid #ddd;
-        }
-
-        .registration-form {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 5px;
-            border: 1px solid #ddd;
-        }
-
-        .video-container {
-            max-width: 600px;
-            margin: 20px auto;
-        }
-
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin: 20px -20px -20px -20px;
-        }
-
-        button {
-            padding: 5px 15px;
-            background: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #0056b3;
-        }
-    </style>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Navigation Section -->
@@ -108,7 +18,7 @@
 
     <!-- Welcome Banner Section -->
     <div id="welcomeBanner">
-        <h1>Welcome to Our Community Portal</h1>
+        <h1 style="color: #e74c3c; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); background-color: blue;">Welcome to Our Community Portal</h1>
         <p>Join us for exciting local events! <span style="color: red; font-weight: bold;">Special offer: First event free!</span></p>
     </div>
 
@@ -189,24 +99,63 @@
                 <output id="confirmation"></output>
             </form>
         </section>
+<!-- Replace the existing video section with this updated code -->
 <h2>Event Promo Video</h2>
 
-  <!-- Embedded YouTube video -->
-  <iframe width="560" height="315"
-          src="https://www.youtube.com/embed/YG8-Yb3utHM"
-          title="YouTube video player"
-          frameborder="0"
-          allowfullscreen
-          onload="showMessage()">
-  </iframe>
+<!-- Embedded YouTube video -->
+<div id="player"></div>
+<div class="video-controls">
+    <button onclick="playVideo()">Play</button>
+    <button onclick="pauseVideo()">Pause</button>
+    <button onclick="restartVideo()">Restart</button>
+</div>
 
-  
+<script>
+// YouTube Player API integration
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-                <div class="video-controls">
-                    <button onclick="playVideo()">Play</button>
-                    <button onclick="pauseVideo()">Pause</button>
-                    <button onclick="restartVideo()">Restart</button>
-                </div>
+var player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '315',
+        width: '560',
+        videoId: 'YG8-Yb3utHM',
+        playerVars: {
+            'playsinline': 1
+        },
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    // Video is ready to play
+    console.log('Video is ready');
+}
+
+function playVideo() {
+    if (player) {
+        player.playVideo();
+    }
+}
+
+function pauseVideo() {
+    if (player) {
+        player.pauseVideo();
+    }
+}
+
+function restartVideo() {
+    if (player) {
+        player.seekTo(0);
+        player.playVideo();
+    }
+}
+</script>
             </div>
         </section>
 
@@ -357,6 +306,31 @@ function findNearbyEvents() {
         options
     );
 };
+<!-- Add this before the closing </body> tag, inside the <script> section -->
+
+
+// Video control functions
+function playVideo() {
+    const video = document.querySelector('iframe');
+    if (video) {
+        video.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    }
+}
+
+function pauseVideo() {
+    const video = document.querySelector('iframe');
+    if (video) {
+        video.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+    }
+}
+
+function restartVideo() {
+    const video = document.querySelector('iframe');
+    if (video) {
+        video.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[0]}', '*');
+        video.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    }
+}
 </script>
 </body>
 </html>
