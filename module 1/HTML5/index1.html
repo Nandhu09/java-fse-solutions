@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Community Event Portal</title>
+    <style>
+        #welcomeBanner {
+            background-color: blue;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+        .event-image {
+            border: 2px solid #333;
+            padding: 5px;
+            width: 200px;
+            height: 100px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .event-gallery {
+            text-align: center;
+            margin: 0 auto;
+            border-spacing: 20px;
+        }
+        .event-gallery td {
+            text-align: center;
+            vertical-align: top;
+            padding: 10px;
+        }
+        .enlarged {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 300px;
+            z-index: 1000;
+            object-fit: contain;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+        .registration-form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+    #promo {
+        text-align: center;
+        margin: 0 auto;
+    }
+    #promo iframe {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    #promo div {
+        margin-top: 15px;
+    }
+    #promo button {
+        margin: 0 5px;
+        padding: 8px 15px;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div class="overlay" onclick="closeEnlarged()"></div>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#events">Events</a>
+        <a href="#contact">Contact</a>
+        <a href="help.html" target="_blank">Help</a>
+    </nav>
+    <div id="welcomeBanner">
+        <h1>Welcome to Our Community Portal</h1>
+        <p>Join us for exciting local events! <span style="color: red; font-weight: bold;">Special offer: First event free!</span></p>
+    </div>
+    <main>
+        <section id="events">
+            <h2>Upcoming Events</h2>
+            <table class="event-gallery">
+                <tr>
+                    <td>
+                        <img src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?cs=srgb&dl=pexels-wendywei-1190297.jpg&fm=jpg" alt="Music Fest" title="Music Fest" class="event-image" ondblclick="enlargeImage(this)">
+                        <p>Music Night</p>
+                    </td>
+                    <td>
+                        <img src="https://floweraura-blog-img.s3.ap-south-1.amazonaws.com/cake-blog-23/food-festivals-in-delhi.jpg" alt="Food Fair" title="Food Fair" class="event-image" ondblclick="enlargeImage(this)">
+                        <p>Food Fair</p>
+                    </td>
+                    <td>
+                        <img src="https://exhibitionglobe.com/wp-content/uploads/2021/06/Art-Exhibition-Types.jpg" alt="Art Show" title="Art Show" class="event-image" ondblclick="enlargeImage(this)">
+                        <p>Art Show</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="https://img.freepik.com/premium-vector/international-yoga-day-sunrise_212474-336.jpg" alt="Yoga Day" title="Yoga Day" class="event-image" ondblclick="enlargeImage(this)">
+                        <p>Yoga Day</p>
+                    </td>
+                    <td>
+                        <img src="https://ius-sdb.com/wp-content/uploads/2023/03/IND-dbcchennai-001-1-655x384.jpg" alt="Cultural Fest" title="Cultural Fest" class="event-image" ondblclick="enlargeImage(this)">
+                        <p>Cultural Festival</p>
+                    </td>
+                    <td>
+                        <img src="https://www.sciencefriday.com/wp-content/uploads/2024/10/NY-marathon.jpg" alt="Marathon" title="Marathon" class="event-image" ondblclick="enlargeImage(this)">
+                        <p>Marathon</p>
+                    </td>
+                </tr>
+            </table>
+        </section>
+        <section id="registration">
+            <h2>Event Registration</h2>
+            <form class="registration-form" id="eventForm" onsubmit="return handleSubmit(event)">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required autofocus placeholder="Enter your full name">
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                </div>
+                <div>
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone" onblur="validatePhone(this)" placeholder="Enter your phone number">
+                </div>
+                <div>
+                    <label for="date">Event Date:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div>
+                    <label for="eventType">Event Type:</label>
+                    <select id="eventType" name="eventType" onchange="updateFee(this)">
+                        <option value="">Select an event</option>
+                        <option value="music">Music Night ($30)</option>
+                        <option value="food">Food Fair ($25)</option>
+                        <option value="art">Art Show ($15)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" onkeyup="countCharacters(this)" placeholder="Any special requirements?"></textarea>
+                    <p>Characters: <span id="charCount">0</span></p>
+                </div>
+                <button type="submit" onclick="showConfirmation()">Register</button>
+                <output id="confirmation"></output>
+            </form>
+        </section>
+        <section id="promo">
+            <h2>Event Promo Video</h2>
+            <iframe id="promoVideo" width="560" height="315" src="https://www.youtube.com/embed/u_qFlTu7HTw?si=i1FPPZtv20678fk5&enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+            <div>
+                <button onclick="playVideo()">Play</button>
+                <button onclick="pauseVideo()">Pause</button>
+                <button onclick="restartVideo()">Restart</button>
+            </div>
+        </section>
+        <section id="location">
+            <h2>Find Nearby Events</h2>
+            <button onclick="findNearbyEvents()">Find Nearby Events</button>
+            <p id="locationResult"></p>
+        </section>
+        <section id="preferences">
+            <h2>Your Preferences</h2>
+            <button onclick="clearPreferences()">Clear Preferences</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Local Community Event Portal</p>
+    </footer>
+
+    <script>
+
+        function validatePhone(input) {
+            const phoneRegex = /^\d{10}$/;
+            if (!phoneRegex.test(input.value)) {
+                alert('Please enter a valid 10-digit phone number');
+                input.focus();
+            }
+        }
+        function updateFee(select) {
+            const fees = {
+                music: '$30',
+                art: '$15',
+                food: '$25'
+            };
+            document.getElementById('confirmation').textContent = 
+                `Selected event fee: ${fees[select.value] || 'Please select an event'}`;
+        }
+        function countCharacters(textarea) {
+            document.getElementById('charCount').textContent = textarea.value.length;
+        }
+        function enlargeImage(img) {
+            const overlay = document.querySelector('.overlay');
+            if (!img.classList.contains('enlarged')) {
+                img.classList.add('enlarged');
+                overlay.style.display = 'block';
+            }
+        }
+
+        function closeEnlarged() {
+            const enlarged = document.querySelector('.enlarged');
+            const overlay = document.querySelector('.overlay');
+            if (enlarged) {
+                enlarged.classList.remove('enlarged');
+                overlay.style.display = 'none';
+            }
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('event-image')) {
+                closeEnlarged();
+            }
+        });
+        function handleSubmit(event) {
+            event.preventDefault();
+            const eventType = document.getElementById('eventType').value;
+            localStorage.setItem('preferredEventType', eventType);
+            document.getElementById('confirmation').textContent = 'Registration successful!';
+            return false;
+        }
+        window.onload = function() {
+            const preferredEventType = localStorage.getItem('preferredEventType');
+            if (preferredEventType) {
+                document.getElementById('eventType').value = preferredEventType;
+            }
+        };
+        function findNearbyEvents() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                document.getElementById('locationResult').textContent = 'Geolocation is not supported';
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById('locationResult').textContent = 
+                `Latitude: ${lat}, Longitude: ${lon}. Finding events near you...`;
+        }
+        function clearPreferences() {
+            localStorage.clear();
+            document.getElementById('eventType').value = '';
+            alert('Preferences cleared!');
+        }
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('promoVideo', {
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Player is ready
+        }
+
+        function playVideo() {
+            if (player && typeof player.playVideo === 'function') {
+                player.playVideo();
+            }
+        }
+
+        function pauseVideo() {
+            if (player && typeof player.pauseVideo === 'function') {
+                player.pauseVideo();
+            }
+        }
+
+        function restartVideo() {
+            if (player && typeof player.seekTo === 'function') {
+                player.seekTo(0);
+                player.playVideo();
+            }
+        }
+    </script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
